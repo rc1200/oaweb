@@ -4,8 +4,8 @@ import random
 import re
 import threading
 from time import sleep
-from oaSscrape import AMZSoupObject, AllOffersObject
-from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName
+from . oaSscrape import AMZSoupObject, AllOffersObject
+from . oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName
 
 
 
