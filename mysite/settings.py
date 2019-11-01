@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
+    'evening-garden-97189.herokuapp.com',
     'https://evening-garden-97189.herokuapp.com/',
 ]
 
