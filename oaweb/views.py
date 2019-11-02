@@ -17,6 +17,7 @@ def super(request):
 
 def open(request):
 
+    print('hi')
     from selenium import webdriver
     import os
 
