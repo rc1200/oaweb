@@ -30,3 +30,4 @@ def open(request):
 
     driver.get('https://www.google.com')
 
+    return render(request,'home.html',{})
