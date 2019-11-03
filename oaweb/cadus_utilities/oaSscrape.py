@@ -92,7 +92,7 @@ class AMZSoupObject(object):
         self.chrome_options.add_argument("--headless")
         # self.chrome_options.add_argument(f'user-agent={self.CHROME_HEADER}')
         self.chrome_options.add_argument("--disable-dev-shm-usage")
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=self.chrome_options)
 
         print(url)
         self.driver.get(url)
