@@ -93,19 +93,13 @@ class AMZSoupObject(object):
         self.chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         self.chrome_options.add_argument("--no-sandbox")
         self.chrome_options.add_argument("--headless")
-        self.chrome_options.add_argument(f'user-agent={self.CHROME_HEADER}')
+        # self.chrome_options.add_argument(f'user-agent={self.CHROME_HEADER}')
         self.chrome_options.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
 
         print(url)
         self.driver.get(url)
         # time.sleep(5)
-
-        # fileNameDict = {
-        #     'ca': 'tempCan.html',
-        #     'com': 'tempUS.html'
-        # }
 
         with open(FileName, 'w', encoding="utf-8") as f:
             f.write(self.driver.page_source)
