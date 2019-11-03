@@ -74,18 +74,29 @@ class AMZSoupObject(object):
 
     def saveToFile(self, FileName, url):
     
-        # can't use headless because it is similar to scraping and Amazon will cut it off
-        # self.options = Options()
-        self.options = webdriver.ChromeOptions()
-        self.options.add_argument('--headless')
-        self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
-        # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
-        # self.options.add_argument('--ignore-certificate-errors')
-        # self.options.add_argument('--incognito')
-        chrome_path = utilsPathFileName('chromedriver.exe')
-        # self.driver = webdriver.Chrome(chrome_options=self.options)
-        # self.driver = webdriver.Chrome(chrome_path)
-        self.driver = webdriver.Chrome(chrome_path, chrome_options=self.options)
+        # # can't use headless because it is similar to scraping and Amazon will cut it off
+        # # self.options = Options()
+        # self.options = webdriver.ChromeOptions()
+        # self.options.add_argument('--headless')
+        # self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
+        # # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
+        # # self.options.add_argument('--ignore-certificate-errors')
+        # # self.options.add_argument('--incognito')
+        # chrome_path = utilsPathFileName('chromedriver.exe')
+        # # self.driver = webdriver.Chrome(chrome_options=self.options)
+        # # self.driver = webdriver.Chrome(chrome_path)
+        # self.driver = webdriver.Chrome(chrome_path, chrome_options=self.options)
+
+# for heroku
+
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        self.chrome_options.add_argument("--no-sandbox")
+        self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument(f'user-agent={self.CHROME_HEADER}')
+        self.chrome_options.add_argument("--disable-dev-shm-usage")
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
 
         print(url)
         self.driver.get(url)

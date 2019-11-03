@@ -1,8 +1,9 @@
-from datetime import datetime
+import csv
 import pandas as pd
 import random
 import re
 import threading
+from datetime import datetime
 from time import sleep
 from . oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName
 
@@ -66,7 +67,7 @@ def runSuperCode():
 
     combineCsvToOneFile(allCsvFiles, headers, utilsPathFileName('combinedCSV.csv'))
 
-    import csv
+
     with open(utilsPathFileName('combinedCSV.csv'), 'r') as f:
         reader = csv.reader(f)
         your_list = list(reader)
