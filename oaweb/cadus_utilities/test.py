@@ -4,7 +4,6 @@ import random
 import re
 import threading
 from time import sleep
-from . oaSscrape import AMZSoupObject, AllOffersObject
 from . oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName
 
 
@@ -66,6 +65,13 @@ def runSuperCode():
         'is_FBA_usa','lowestPriceFloorusa','US_ConvertedPriceTo_CAD','ProfitFactor','PF_10pctBelow','PF_15pctBelow']
 
     combineCsvToOneFile(allCsvFiles, headers, utilsPathFileName('combinedCSV.csv'))
+
+    import csv
+    with open(utilsPathFileName('combinedCSV.csv'), 'r') as f:
+        reader = csv.reader(f)
+        your_list = list(reader)
+
+    return your_list
 
     # ***********************   combine all csv files  **********************************
 

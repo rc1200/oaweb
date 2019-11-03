@@ -57,6 +57,8 @@ class AMZSoupObject(object):
     HEADERS = {
         'User-Agent': random.choice(userAgents)}
 
+    CHROME_HEADER = random.choice(userAgents)
+
     def __init__(self, itemNumber, dotCAordotCOM, readFromFile=None, isTest=None):
         self.itemNumber = itemNumber
         self.dotCAordotCOM = dotCAordotCOM
@@ -71,14 +73,21 @@ class AMZSoupObject(object):
             # return 'https://www.amazon.com/gp/offer-listing/{}'.format(self.itemNumber)
 
     def saveToFile(self, FileName, url):
-
+    
         # can't use headless because it is similar to scraping and Amazon will cut it off
         # self.options = Options()
-        # self.options.add_argument('--headless')
+        self.options = webdriver.ChromeOptions()
+        self.options.add_argument('--headless')
+        self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
         # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
-        # self.driver = webdriver.Chrome(chrome_options=self.options)
+        # self.options.add_argument('--ignore-certificate-errors')
+        # self.options.add_argument('--incognito')
         chrome_path = utilsPathFileName('chromedriver.exe')
-        self.driver = webdriver.Chrome(chrome_path)
+        # self.driver = webdriver.Chrome(chrome_options=self.options)
+        # self.driver = webdriver.Chrome(chrome_path)
+        self.driver = webdriver.Chrome(chrome_path, chrome_options=self.options)
+
+        print(url)
         self.driver.get(url)
         # time.sleep(5)
 

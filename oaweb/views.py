@@ -11,8 +11,13 @@ def home(request):
 
 
 def super(request):
-    runSuperCode()
-    return render(request,'super.html',{})
+    returnSomething = runSuperCode()
+    print(type(returnSomething))
+    print('viewwwwwwwwwwwwwwwwwwwwwwwwwwww')
+    print(returnSomething)
+    for i in returnSomething:
+        print(i)
+    return render(request,'super.html',{'returnSomething': returnSomething})
 
 
 def open(request):
