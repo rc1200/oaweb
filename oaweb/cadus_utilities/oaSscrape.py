@@ -74,18 +74,15 @@ class AMZSoupObject(object):
 
     def saveToFile(self, FileName, url):
     
-        # # can't use headless because it is similar to scraping and Amazon will cut it off
-        # # self.options = Options()
+        # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
+        # self.options.add_argument('--ignore-certificate-errors')
+        # self.options.add_argument('--incognito')
+
         # self.options = webdriver.ChromeOptions()
-        # self.options.add_argument('--headless')
+        # self.options.add_argument("--headless")
         # self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
-        # # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
-        # # self.options.add_argument('--ignore-certificate-errors')
-        # # self.options.add_argument('--incognito')
         # chrome_path = utilsPathFileName('chromedriver.exe')
-        # # self.driver = webdriver.Chrome(chrome_options=self.options)
-        # # self.driver = webdriver.Chrome(chrome_path)
-        # self.driver = webdriver.Chrome(chrome_path, chrome_options=self.options)
+        # self.driver = webdriver.Chrome(chrome_path, options=self.options)
 
 # for heroku
 
