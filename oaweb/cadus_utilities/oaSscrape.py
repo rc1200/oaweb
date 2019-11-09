@@ -43,6 +43,8 @@ class AMZSoupObject(object):
 
     # constant for all classes
 
+    # num_of_AMZ_objects = 0 # counter
+
     userAgents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0',
                   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362',
                   'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25',
@@ -64,6 +66,7 @@ class AMZSoupObject(object):
         self.dotCAordotCOM = dotCAordotCOM
         self.readFromFile = readFromFile
         self.isTest = isTest
+        # AMZSoupObject.num_of_AMZ_objects += 1
 
     def urlType(self):
         if self.dotCAordotCOM.upper() == 'CA':
@@ -73,30 +76,40 @@ class AMZSoupObject(object):
             # return 'https://www.amazon.com/gp/offer-listing/{}'.format(self.itemNumber)
 
     def saveToFile(self, FileName, url):
-    
+
+
+# run locally
         # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
         # self.options.add_argument('--ignore-certificate-errors')
         # self.options.add_argument('--incognito')
 
-        # self.options = webdriver.ChromeOptions()
+        self.options = webdriver.ChromeOptions()
         # self.options.add_argument("--headless")
         # self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
-        # chrome_path = utilsPathFileName('chromedriver.exe')
-        # self.driver = webdriver.Chrome(chrome_path, options=self.options)
+        chrome_path = utilsPathFileName('chromedriver.exe')
+        self.driver = webdriver.Chrome(chrome_path, options=self.options)
+# run locally
+
+# *************************************************************
 
 # for heroku
 
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        self.chrome_options.add_argument("--no-sandbox")
-        self.chrome_options.add_argument("--headless")
-        # self.chrome_options.add_argument(f'user-agent={self.CHROME_HEADER}')
-        self.chrome_options.add_argument("--disable-dev-shm-usage")
-        self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=self.chrome_options)
+        # self.chrome_options = webdriver.ChromeOptions()
+        # self.chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        # self.chrome_options.add_argument("--no-sandbox")
+        # self.chrome_options.add_argument("--headless")
+        # # self.chrome_options.add_argument(f'user-agent={self.CHROME_HEADER}')
+        # self.chrome_options.add_argument("--disable-dev-shm-usage")
+        # self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=self.chrome_options)
 
-        print(url)
+# for heroku
+
+
+        print(f'\n{url}   urLLLLLLLLLL  for item: {self.itemNumber} \n')
+        # print(f'number of total Objects created is : {AMZSoupObject.num_of_AMZ_objects}')
+        
         self.driver.get(url)
-        # time.sleep(5)
+        time.sleep(4)
 
         with open(FileName, 'w', encoding="utf-8") as f:
             f.write(self.driver.page_source)
@@ -113,7 +126,7 @@ class AMZSoupObject(object):
                 self.saveToFile(self.readFromFile, self.urlType())
                 # soup = BeautifulSoup(open('test.html'), 'lxml')  # note for some reason html.parser was not getting all the data
                 # soup = BeautifulSoup(open('testUS.html'), 'lxml')  # note for some reason html.parser was not getting all the data
-                print('Reading from file {}'.format(self.readFromFile))
+                print(f'Reading from file {self.readFromFile} for Item: {self.itemNumber}')
                 # note for some reason html.parser was not getting all the data
                 return BeautifulSoup(open(self.readFromFile, encoding="utf-8"), 'lxml')
         else:
@@ -142,6 +155,8 @@ class AllOffersObject(object):
     __PositiveFeedbackPctMustBeGreaterThan = 87
     __SellerRatingMustBeGreaterThan = 34
 
+    num_of_AMZ_objects = 0 # counter
+
     def __init__(self, offersSoup, USFilter=None):
         self.offersSoup = offersSoup
         self.USFilter = USFilter
@@ -155,6 +170,8 @@ class AllOffersObject(object):
         self.__deliveryTextExcludeList = 'India, Kingdom, United'
 
         self.setUsFilters(self.USFilter)
+        AllOffersObject.num_of_AMZ_objects += 1
+        print(f'\nnumber of total Objects created is : {AllOffersObject.num_of_AMZ_objects}\n')
 
     # change Values if US Prices
     def setUsFilters(self, v):

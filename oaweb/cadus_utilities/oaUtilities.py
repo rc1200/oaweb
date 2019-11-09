@@ -1,15 +1,19 @@
 import pandas as pd
 import random
-from . oaSscrape import AMZSoupObject, AllOffersObject
+from oaSscrape import AMZSoupObject, AllOffersObject
 from time import sleep
 import os
 
 
 BASE_oaAPP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_oaAPP_Utilities_DIR  = os.path.join(BASE_oaAPP_DIR, 'cadus_utilities')
+BASE_oaAPP_Utilities_temp_DIR  = os.path.join(BASE_oaAPP_Utilities_DIR, 'temp')
 
 def utilsPathFileName(fileName):
     return os.path.join(BASE_oaAPP_Utilities_DIR, fileName)
+
+def utilsPathTempFileName(fileName):
+    return os.path.join(BASE_oaAPP_Utilities_temp_DIR, fileName)
 
 
 def randomSleep(myList=None):
@@ -33,13 +37,14 @@ def randomSleep(myList=None):
 
 
 
-def splitIntoListArray (sourceList, splitListArray, rangeVal, start, recordsPerList):
+def splitIntoListArray (sourceList, rangeVal, start, recordsPerList):
     '''
         get initial CSV list, then breaks them down to individual List array
         based on the recordsPerList
         end result is a list array with different ASIN numbers to be used for MultiThreading
     '''
 
+    splitListArray = [[] for _ in range(rangeVal)]
     startNum = start
     endNum = startNum + recordsPerList
     for i in range(rangeVal):
@@ -47,6 +52,9 @@ def splitIntoListArray (sourceList, splitListArray, rangeVal, start, recordsPerL
         startNum = endNum
         endNum = startNum + recordsPerList
 
+    # remove any list that is empty then ruturns true list based on items
+    splitListArray = list(filter(None, splitListArray))
+    return splitListArray
 
 
 def getBothCAN_US(itemNum, threadNum, isTest):
@@ -61,7 +69,7 @@ def getBothCAN_US(itemNum, threadNum, isTest):
         print('{}: reading dict {},{} {}'.format(itemNum, k, v[0], v[1]))
 
         # stores each Item into an amazon Object, first do Canada, then US based on Dict
-        myAmazonObj = AMZSoupObject(itemNum, v[0], utilsPathFileName(v[1]), isTest) 
+        myAmazonObj = AMZSoupObject(itemNum, v[0], utilsPathTempFileName(v[1]), isTest) 
         soup = myAmazonObj.soupObj()
 
         # stores the ENTIRE soup object to a Class to be further filtered
@@ -123,7 +131,7 @@ def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result
         x = dictToDF(getBothCAN_US(i, threadNum, isTest))
         print(x)
 
-        x.to_csv(utilsPathFileName(todaysDate + fileNameExtensionName), mode='a', header=False) 
+        x.to_csv(utilsPathTempFileName(todaysDate + fileNameExtensionName), mode='a', header=False) 
 
         # No need anymore as we are append to file now so DF is technically not needed
         # myDf = myDf.append(x)
@@ -137,7 +145,7 @@ def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result
 
 def combineCsvToOneFile (allCsvFiles, headers, NewFileName):
     
-    combined_csv_to_Pandas = pd.concat([pd.read_csv(utilsPathFileName(f),names=headers) for f in allCsvFiles ])
+    combined_csv_to_Pandas = pd.concat([pd.read_csv(utilsPathTempFileName(f),names=headers) for f in allCsvFiles ])
     print('combinging csv and writing to new file')
     print(combined_csv_to_Pandas.head())
     combined_csv_to_Pandas.to_csv( NewFileName, index=False, encoding='utf-8-sig')

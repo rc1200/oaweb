@@ -5,7 +5,7 @@ import re
 import threading
 from datetime import datetime
 from time import sleep
-from . oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName
+from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName
 
 
 
@@ -16,20 +16,22 @@ def runSuperCode():
     df_asin = pd.read_csv(utilsPathFileName('asin2.csv'))
     myFullASINList = df_asin['ASIN'].drop_duplicates().values.tolist()
 
-    numOfLists = 1
-    startNum = 1
-    recordsPerList = 1
+    numOfLists = 6
+    STARTNUM = 0  #  must be 0 to get first value
+    recordsPerList = 300
 
     # initalize empty lists
-    asinSubList = [[] for _ in range(numOfLists)]
-    thread = [[] for _ in range(numOfLists)]
-    # dfList = [pd.DataFrame() for _ in range(n)]  # May not need as we are appendint o csv file
+# asinSubList = [[] for _ in range(numOfLists)]  -- dont need, moved to function and return that list
+# thread = [[] for _ in range(numOfLists)]  -- might not need this
+# dfList = [pd.DataFrame() for _ in range(n)]  # May not need as we are appendint o csv file
 
     # ********************************************
 
 
-    # # creaet an array of List to store the ASIN numbers
-    splitIntoListArray(myFullASINList, asinSubList, numOfLists, startNum, recordsPerList)
+    # creaet an array of List to store the ASIN numbers
+    asinSubList = splitIntoListArray(myFullASINList, numOfLists, STARTNUM, recordsPerList)
+    # Need to change numOfLists if the is less items
+    numOfLists = len(asinSubList)
 
     today = datetime.today().strftime('%Y-%m-%d')
     timeStart = datetime.now()
@@ -37,7 +39,7 @@ def runSuperCode():
     # Create new threads and append to list
     threads = []
     for i in range(numOfLists):
-        t = threading.Thread(target=saveToFile, args=(asinSubList[i], i, today, '_Result{}.csv'.format(i), False))
+        t = threading.Thread(target=saveToFile, args=(asinSubList[i], i, today, f'_Result{i}.csv', False))
             # def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result.csv', isTest):
             # -> see oaUtilities.py for details
         threads.append(t)
@@ -64,10 +66,10 @@ def runSuperCode():
     headers =  ['ASIN', 'Seller_canada','priceTotal_canada', 'Condition_canada','Seller_usa', 'priceTotal_usa', 'Condition_usa',
         'is_FBA_usa','lowestPriceFloorusa','US_ConvertedPriceTo_CAD','ProfitFactor','PF_10pctBelow','PF_15pctBelow']
 
-    combineCsvToOneFile(allCsvFiles, headers, utilsPathFileName('combinedCSV.csv'))
+    combineCsvToOneFile(allCsvFiles, headers, utilsPathTempFileName('combinedCSV.csv'))
 
 
-    with open(utilsPathFileName('combinedCSV.csv'), 'r') as f:
+    with open(utilsPathTempFileName('combinedCSV.csv'), 'r', encoding="utf-8") as f:
         reader = csv.reader(f)
         your_list = list(reader)
 
@@ -76,4 +78,4 @@ def runSuperCode():
     # ***********************   combine all csv files  **********************************
 
 # uncomment for testing
-# runSuperCode()
+runSuperCode()
