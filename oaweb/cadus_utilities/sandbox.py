@@ -20,7 +20,7 @@ recordsPerList = 300
 asinSubList = splitIntoListArray(myFullASINList, numOfLists, STARTNUM, recordsPerList)
 
 
-print(asinSubList[0])
+print(asinSubList[-1])
 
 
 

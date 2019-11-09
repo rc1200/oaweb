@@ -109,7 +109,7 @@ class AMZSoupObject(object):
         # print(f'number of total Objects created is : {AMZSoupObject.num_of_AMZ_objects}')
         
         self.driver.get(url)
-        time.sleep(4)
+        # time.sleep(4)
 
         with open(FileName, 'w', encoding="utf-8") as f:
             f.write(self.driver.page_source)
@@ -400,10 +400,16 @@ class AllOffersObject(object):
 
         for i in sellerObject:
             sellerName = self.getCategoryDataForOneSeller(i)['sellerName']
+            
+            # Need to put provisions for names with special characters ie "*House of Treasures*"
+            sellerName = sellerName.replace("*", "x")
+            
             sellerList = [k for k, v in nestedDict.items()]
             occurance = sellerList.count(sellerName)
             if occurance > 0:
                 r = re.compile(sellerName)
+                
+
                 sellerNameOccurance = len(list(filter(r.match, sellerList)))
                 nestedDict[sellerName + str(sellerNameOccurance)
                            ] = self.getCategoryDataForOneSeller(i)

@@ -46,11 +46,11 @@ def splitIntoListArray (sourceList, rangeVal, start, recordsPerList):
 
     splitListArray = [[] for _ in range(rangeVal)]
     startNum = start
-    endNum = startNum + recordsPerList
+    endNum = startNum + recordsPerList 
     for i in range(rangeVal):
         splitListArray[i] = sourceList[ startNum : endNum]
-        startNum = endNum
-        endNum = startNum + recordsPerList
+        startNum = endNum 
+        endNum = startNum + recordsPerList 
 
     # remove any list that is empty then ruturns true list based on items
     splitListArray = list(filter(None, splitListArray))
@@ -59,8 +59,8 @@ def splitIntoListArray (sourceList, rangeVal, start, recordsPerList):
 
 def getBothCAN_US(itemNum, threadNum, isTest):
     
-    loopDict = {'canada': ['ca', 'tempCan{}.html'.format(threadNum), None],
-                'usa': ['com', 'tempUS{}.html'.format(threadNum), 'ApplyUSFilter']
+    loopDict = {'canada': ['ca', f'tempCan{threadNum}.html', None],
+                'usa': ['com', f'tempUS{threadNum}.html', 'ApplyUSFilter']
                 }
 
     compareDict = {}
@@ -125,13 +125,16 @@ def dictToDF(myDict):
 
 
 def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result.csv', isTest=False):
-    # def saveToFile(myASINList, threadNum, myDf, fileNameExtensionName='_Result.csv'):  -- OLD
 
-    for i in myASINList:
-        x = dictToDF(getBothCAN_US(i, threadNum, isTest))
-        print(x)
+    for index, i in enumerate(myASINList):
 
-        x.to_csv(utilsPathTempFileName(todaysDate + fileNameExtensionName), mode='a', header=False) 
+        print(f'\nthread {threadNum} running item {index} in a list of list {len(myASINList)}\n')
+        tempDF = dictToDF(getBothCAN_US(i, threadNum, isTest))
+        print(f'\nthread {threadNum} running item {index} in a list of list {len(myASINList)}')
+        print(tempDF)
+        
+
+        tempDF.to_csv(utilsPathTempFileName(todaysDate + fileNameExtensionName), mode='a', header=False) 
 
         # No need anymore as we are append to file now so DF is technically not needed
         # myDf = myDf.append(x)
