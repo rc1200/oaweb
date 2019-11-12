@@ -130,6 +130,8 @@ def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result
 
         print(f'\nthread {threadNum} running item {index} in a list of list {len(myASINList)}\n')
         tempDF = dictToDF(getBothCAN_US(i, threadNum, isTest))
+
+        print (f' xxxxxxxxxxxxxxxxxxxxxxxxxxxxx      process id: is {os.getpid()}' )
         print(f'\nthread {threadNum} running item {index} in a list of list {len(myASINList)}')
         print(tempDF)
         
@@ -142,7 +144,6 @@ def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result
         # randomSleep()
 
     print(' ****************** Non filtered DF ***************')
-    print(x)
 
 
 

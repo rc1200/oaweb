@@ -15,7 +15,6 @@ def runSuperCode():
 
     if __name__ == "__main__":  # confirms that the code is under main function
 
-
         logging.basicConfig(filemode= utilsPathTempFileName('myLog.log'))
         logger = logging.getLogger()
 
@@ -24,9 +23,9 @@ def runSuperCode():
         df_asin = pd.read_csv(utilsPathFileName('asin2.csv'))
         myFullASINList = df_asin['ASIN'].drop_duplicates().values.tolist()
 
-        numOfLists = 10
+        numOfLists = 8
         STARTNUM = 0  #  must be 0 to get first value
-        recordsPerList = 200
+        recordsPerList = 250
 
         # initalize empty lists
     # asinSubList = [[] for _ in range(numOfLists)]  -- dont need, moved to function and return that list
@@ -41,8 +40,7 @@ def runSuperCode():
         # Need to change numOfLists if the is less items
         numOfLists = len(asinSubList)
 
-        today = datetime.today().strftime('%Y-%m-%d')
-        timeStart = datetime.now()
+
 
         # *******************  Multi Process  *****************
         # Create new procs and append to list
@@ -63,22 +61,17 @@ def runSuperCode():
         # *******************  Multi Process  *****************
 
 
-        timeEnd = datetime.now()
-        totalMin = timeEnd - timeStart
 
-        print('Start Time:  {}'.format(timeStart))
-        print('End Time:  {}'.format(timeEnd))
-        print('Total Time:  {}'.format(totalMin))
 
 
         # ***********************   combine all csv files  **********************************
 
         allCsvFiles = ['{}_Result{}.csv'.format(today,i) for i in range(numOfLists)]
         print(allCsvFiles)
-        headers =  ['ASIN', 'Seller_canada','priceTotal_canada', 'Condition_canada','Seller_usa', 'priceTotal_usa', 'Condition_usa',
+        HEADERS =  ['ASIN', 'Seller_canada','priceTotal_canada', 'Condition_canada','Seller_usa', 'priceTotal_usa', 'Condition_usa',
             'is_FBA_usa','lowestPriceFloorusa','US_ConvertedPriceTo_CAD','ProfitFactor','PF_10pctBelow','PF_15pctBelow']
 
-        combineCsvToOneFile(allCsvFiles, headers, utilsPathTempFileName('combinedCSV.csv'))
+        combineCsvToOneFile(allCsvFiles, HEADERS, utilsPathTempFileName('combinedCSV.csv'))
 
 
         with open(utilsPathTempFileName('combinedCSV.csv'), 'r', encoding="utf-8") as f:
@@ -90,4 +83,36 @@ def runSuperCode():
         # ***********************   combine all csv files  **********************************
 
 # uncomment for testing
-runSuperCode()
+
+
+today = datetime.today().strftime('%Y-%m-%d')
+timeStart = datetime.now()
+
+# ***************************
+yes_or_no_input = input("do you want to send email? y or n ??: ") 
+# runSuperCode()  
+# ***************************
+
+timeEnd = datetime.now()
+totalMin = timeEnd - timeStart
+print('Start Time:  {}'.format(timeStart))
+print('End Time:  {}'.format(timeEnd))
+print('Total Time:  {}'.format(totalMin))
+
+
+def sendEmail(y_or_n):
+    '''
+        >>> y or Y,... will send email
+        else no email sent
+    '''
+    if y_or_n.upper() == 'Y':
+        fromaddr = "bootstrapu@gmail.com"
+        eml_pswrd = os.environ.get('BOOTSTRAP_PASSWORD', 'Not Set')
+        toaddr = "ron.calibuso@gmail.com"
+        filename = "combinedCSV.csv"
+        filePath = utilsPathTempFileName('')
+
+        sendViaGmail(fromaddr, eml_pswrd, toaddr, filename, filePath)
+
+
+sendEmail(yes_or_no_input)

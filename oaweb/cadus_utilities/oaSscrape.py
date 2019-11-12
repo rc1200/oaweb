@@ -167,7 +167,7 @@ class AllOffersObject(object):
         # Exclude List for Seller info
         self.__sellerTextExcludeList = 'Just Launched'
         # Exclude List for Delivery
-        self.__deliveryTextExcludeList = 'India, Kingdom, United'
+        self.__deliveryTextExcludeList = 'India, Kingdom'
 
         self.setUsFilters(self.USFilter)
         AllOffersObject.num_of_AMZ_objects += 1
@@ -286,67 +286,6 @@ class AllOffersObject(object):
         tempPandas.to_csv('exported_to_csv.csv')
         return tempPandas
 
-    # def storeToNestedDictFiltered(self, sellerObject):
-    #     nestedDict = {}
-    #     boolPutInDict = True
-
-    #     # INCLUDE List for Condition (see private variables)
-    #     conditoinExcludeSet = set(
-    #         [x.strip() for x in self.__conditionTextExcludeList.split(',')])
-
-    #     # Exclude List for Seller info  (see private variables)
-    #     sellerExcludeSet = set(
-    #         [x.strip() for x in self.__sellerTextExcludeList.split(',')])
-
-    #     # Exclude List for Delivery  (see private variables)
-    #     deliveryExcludeSet = set(
-    #         [x.strip() for x in self.__deliveryTextExcludeList.split(',')])
-
-    #     for i in sellerObject:
-    #         boolPutInDict = True
-    #         sellerName = self.getCategoryDataForOneSeller(i)['sellerName']
-    #         currentConditon = self.getCategoryDataForOneSeller(i)['condition']
-
-    #         if self.getCategoryDataForOneSeller(i)['priceTotal'] < self.__PriceMustBeGreaterThan:
-    #             # if self.getCategoryDataForOneSeller(i)['priceTotal'] < 1:
-    #             boolPutInDict = False
-
-    #         if currentConditon in conditoinExcludeSet:
-    #             boolPutInDict = False
-
-    #         if self.getCategoryDataForOneSeller(i)['sellerPositive'] < self.__PositiveFeedbackPctMustBeGreaterThan:
-    #             # if self.getCategoryDataForOneSeller(i)['sellerPositive'] != 'sdsd':
-    #             # if self.getCategoryDataForOneSeller(i)['sellerPositive'] < 0:
-    #             print('{}  xxxxxxxxxxxxx   storeToNestedDictFiltered  xxxxxxxxxxxxxxx {}'.format(
-    #                 self.__PositiveFeedbackPctMustBeGreaterThan, self.getCategoryDataForOneSeller(i)['sellerPositive']))
-    #             boolPutInDict = False
-
-    #         if self.getCategoryDataForOneSeller(i)['sellerRating'] < self.__SellerRatingMustBeGreaterThan:
-    #             # if self.getCategoryDataForOneSeller(i)['sellerRating'] < 0:
-    #             # print('xxxxxxxxxxxxxxxxxxxxxxxxxxxx', self.getCategoryDataForOneSeller(i)['sellerRating'])
-    #             boolPutInDict = False
-
-    #         deliveryText = self.getCategoryDataForOneSeller(i)['delivery']
-    #         for stringMatch in deliveryExcludeSet:
-    #             if stringMatch in deliveryText:
-    #                 boolPutInDict = False
-
-    #         sellerText = self.getCategoryDataForOneSeller(i)['seller']
-    #         for stringMatch in sellerExcludeSet:
-    #             if stringMatch in sellerText:
-    #                 boolPutInDict = False
-
-    #         # Amazon Seller Hidden Gem - normally gets filtered out due to no ratings
-    #         # Special conditon for Rental as we want to ensure we filter that out
-    #         if sellerName == 'Amazon' and currentConditon != 'Rentalxxx':
-    #             boolPutInDict = True
-
-    #         boolPutInDict = True
-
-    #         if boolPutInDict == True:
-    #             nestedDict[sellerName] = self.getCategoryDataForOneSeller(i)
-
-    #     return(nestedDict)
 
     def filterCriteria(self, dict):
 
@@ -402,11 +341,13 @@ class AllOffersObject(object):
             sellerName = self.getCategoryDataForOneSeller(i)['sellerName']
             
             # Need to put provisions for names with special characters ie "*House of Treasures*"
-            sellerName = sellerName.replace("*", "x")
+            # sellerName = sellerName.replace("*", "x")
+            sellerName = re.sub(r'\W+', 'x', sellerName)
             
             sellerList = [k for k, v in nestedDict.items()]
             occurance = sellerList.count(sellerName)
             if occurance > 0:
+                # ??? why am I doing .compile?
                 r = re.compile(sellerName)
                 
 
