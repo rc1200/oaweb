@@ -29,10 +29,25 @@ from sendGmail import sendViaGmail
 # df_all.to_csv(utilsPathTempFileName('Left_only.csv'), mode='a', header=False) 
 
 
-fromaddr = "bootstrapu@gmail.com"
-eml_pswrd = os.environ.get('BOOTSTRAP_PASSWORD', 'Not Set')
-toaddr = "ron.calibuso@gmail.com"
-filename = "combinedCSV.csv"
-filePath = utilsPathTempFileName('')
 
-sendViaGmail(fromaddr, eml_pswrd, toaddr, filename, filePath)
+
+
+def sendEmail(y_or_n, filenameCSV):
+    '''
+        >>> y or Y,... will send email
+        else no email sent
+    '''
+    if y_or_n.upper() == 'Y':
+        fromaddr = "bootstrapu@gmail.com"
+        eml_pswrd = os.environ.get('BOOTSTRAP_PASSWORD', 'Not Set')
+        toaddr = "ron.calibuso@gmail.com"
+        filename = filenameCSV
+        filePath = utilsPathTempFileName('')
+
+        sendViaGmail(fromaddr, eml_pswrd, toaddr, filename, filePath)
+
+
+fileName = '2019 11 19 400K ALL SET 1.xlsx'
+fileNameCSV = f'{fileName}.csv'
+yes_or_no_input = 'y'
+sendEmail(yes_or_no_input, fileNameCSV)

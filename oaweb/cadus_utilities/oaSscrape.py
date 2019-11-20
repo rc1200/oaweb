@@ -85,7 +85,7 @@ class AMZSoupObject(object):
 
         self.options = webdriver.ChromeOptions()
         # self.options.add_argument("--headless")
-        # self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
+        self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
         chrome_path = utilsPathFileName('chromedriver.exe')
         self.driver = webdriver.Chrome(chrome_path, options=self.options)
 # run locally
@@ -109,7 +109,7 @@ class AMZSoupObject(object):
         # print(f'number of total Objects created is : {AMZSoupObject.num_of_AMZ_objects}')
         
         self.driver.get(url)
-        # time.sleep(4)
+        time.sleep(5)
 
         with open(FileName, 'w', encoding="utf-8") as f:
             f.write(self.driver.page_source)
