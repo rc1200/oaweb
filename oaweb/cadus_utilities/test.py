@@ -1,118 +1,34 @@
-import csv
-import pandas as pd
-import random
-import re
-# import threading
-import logging
-from multiprocessing import Process, Pool
-from datetime import datetime
+import selenium.webdriver as webdriver
+import selenium.webdriver.support.ui as ui
+from selenium.webdriver.common.keys import Keys
 from time import sleep
-from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName
+import os
 
 
+# BASE_oaAPP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_oaAPP_Utilities_DIR  = os.path.join(BASE_oaAPP_DIR, 'cadus_utilities')
 
-def runSuperCode():
-
-    if __name__ == "__main__":  # confirms that the code is under main function
-
-        logging.basicConfig(filemode= utilsPathTempFileName('myLog.log'))
-        logger = logging.getLogger()
-
-        # ********************************************
-
-        df_asin = pd.read_csv(utilsPathFileName('asin2.csv'))
-        myFullASINList = df_asin['ASIN'].drop_duplicates().values.tolist()
-
-        numOfLists = 8
-        STARTNUM = 0  #  must be 0 to get first value
-        recordsPerList = 250
-
-        # initalize empty lists
-    # asinSubList = [[] for _ in range(numOfLists)]  -- dont need, moved to function and return that list
-    # thread = [[] for _ in range(numOfLists)]  -- might not need this
-    # dfList = [pd.DataFrame() for _ in range(n)]  # May not need as we are appendint o csv file
-
-        # ********************************************
+# def utilsPathFileName(fileName):
+#     return os.path.join(BASE_oaAPP_Utilities_DIR, fileName)
 
 
-        # creaet an array of List to store the ASIN numbers
-        asinSubList = splitIntoListArray(myFullASINList, numOfLists, STARTNUM, recordsPerList)
-        # Need to change numOfLists if the is less items
-        numOfLists = len(asinSubList)
+# options = webdriver.ChromeOptions()
+# chrome_path = utilsPathFileName('chromedriver.exe')
+# browser = webdriver.Chrome(chrome_path, options=options)
+
+# browser.get('https://www.google.com?q=python#q=python')
+# first_result = ui.WebDriverWait(browser, 15).until(lambda browser: browser.find_element_by_class_name('rc'))
+# first_link = first_result.find_element_by_tag_name('a')
+
+# main_window = browser.current_window_handle
+# first_link.send_keys(Keys.CONTROL + Keys.RETURN)
+
+# browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.TAB)
+# browser.switch_to_window(main_window)
+
+# sleep(90)
+
+# browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 'w')
+# browser.switch_to_window(main_window)
 
 
-
-        # *******************  Multi Process  *****************
-        # Create new procs and append to list
-        procs = []
-        for i in range(numOfLists):
-            # saveToFile(asinSubList[i], i, today, f'_Result{i}.csv', False)
-
-            proc = Process(target=saveToFile, args=(asinSubList[i], i, today, f'_Result{i}.csv', False))
-                # def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result.csv', isTest):
-                # -> see oaUtilities.py for details
-            procs.append(proc)
-
-        # Start all procs stored in list
-        [proc.start() for proc in procs]
-        # # wait for all procs before proceeding
-        [proc.join() for proc in procs]
-
-        # *******************  Multi Process  *****************
-
-
-
-
-
-        # ***********************   combine all csv files  **********************************
-
-        allCsvFiles = ['{}_Result{}.csv'.format(today,i) for i in range(numOfLists)]
-        print(allCsvFiles)
-        HEADERS =  ['ASIN', 'Seller_canada','priceTotal_canada', 'Condition_canada','Seller_usa', 'priceTotal_usa', 'Condition_usa',
-            'is_FBA_usa','lowestPriceFloorusa','US_ConvertedPriceTo_CAD','ProfitFactor','PF_10pctBelow','PF_15pctBelow']
-
-        combineCsvToOneFile(allCsvFiles, HEADERS, utilsPathTempFileName('combinedCSV.csv'))
-
-
-        with open(utilsPathTempFileName('combinedCSV.csv'), 'r', encoding="utf-8") as f:
-            reader = csv.reader(f)
-            your_list = list(reader)
-
-        return your_list
-
-        # ***********************   combine all csv files  **********************************
-
-# uncomment for testing
-
-
-today = datetime.today().strftime('%Y-%m-%d')
-timeStart = datetime.now()
-
-# ***************************
-yes_or_no_input = input("do you want to send email? y or n ??: ") 
-# runSuperCode()  
-# ***************************
-
-timeEnd = datetime.now()
-totalMin = timeEnd - timeStart
-print('Start Time:  {}'.format(timeStart))
-print('End Time:  {}'.format(timeEnd))
-print('Total Time:  {}'.format(totalMin))
-
-
-def sendEmail(y_or_n):
-    '''
-        >>> y or Y,... will send email
-        else no email sent
-    '''
-    if y_or_n.upper() == 'Y':
-        fromaddr = "bootstrapu@gmail.com"
-        eml_pswrd = os.environ.get('BOOTSTRAP_PASSWORD', 'Not Set')
-        toaddr = "ron.calibuso@gmail.com"
-        filename = "combinedCSV.csv"
-        filePath = utilsPathTempFileName('')
-
-        sendViaGmail(fromaddr, eml_pswrd, toaddr, filename, filePath)
-
-
-sendEmail(yes_or_no_input)

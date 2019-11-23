@@ -85,7 +85,7 @@ class AMZSoupObject(object):
 
         self.options = webdriver.ChromeOptions()
         # self.options.add_argument("--headless")
-        self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
+        # self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
         chrome_path = utilsPathFileName('chromedriver.exe')
         self.driver = webdriver.Chrome(chrome_path, options=self.options)
 # run locally
@@ -167,7 +167,7 @@ class AllOffersObject(object):
         # Exclude List for Seller info
         self.__sellerTextExcludeList = 'Just Launched'
         # Exclude List for Delivery
-        self.__deliveryTextExcludeList = 'India, Kingdom'
+        self.__deliveryTextExcludeList = 'India'
 
         self.setUsFilters(self.USFilter)
         AllOffersObject.num_of_AMZ_objects += 1

@@ -48,7 +48,7 @@ def runSuperCode(fileNameSelected):
         myFullASINList = df_asin['ASIN'].drop_duplicates().values.tolist()
         print(myFullASINList)
 
-        numOfLists = 8
+        numOfLists = 1
         STARTNUM = 0  #  must be 0 to get first value
         recordsPerList = 250
 
@@ -105,7 +105,7 @@ def runSuperCode(fileNameSelected):
 
         # ***********************   combine all csv files  **********************************
         
-        yes_or_no_input = 'y'
+        yes_or_no_input = 'n'
         sendEmail(yes_or_no_input, fileNameCSV)
 
         return your_list
