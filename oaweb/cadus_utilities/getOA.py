@@ -11,8 +11,7 @@ from sendGmail import sendViaGmail
 import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), "cadus_utilities"))
 
-from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName
-
+from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName, deleteAllFilesInFolder, createTempFile, getListOfFileNames
 
 def sendEmail(y_or_n, filenameCSV,sendToEmailAddress):
     '''
@@ -29,20 +28,36 @@ def sendEmail(y_or_n, filenameCSV,sendToEmailAddress):
 
         sendViaGmail(fromaddr, eml_pswrd, toaddr, filename, filePath)
 
+def runCleanupOfTempFolder():
+    dirPath = utilsPathTempFileName('')
+    deleteAllFilesInFolder(dirPath)
+    createTempFile(dirPath, 'tempCan0.html')
+    createTempFile(dirPath, 'tempUS0.html')
 
-def runSuperCode(fileNameSelected):
+def runCleanupOf_oaList_Folder():
+    dirPath = utilsPathFileName('oaList')
+    deleteAllFilesInFolder(dirPath)
+
+
+def runSuperCode():
 
     if __name__ == "__main__":  # confirms that the code is under main function
 
+        runCleanupOfTempFolder()
         logging.basicConfig(filemode= utilsPathTempFileName('myLog.log'))
         logger = logging.getLogger()
 
         # ********************************************
 
-        fileName = fileNameSelected
+        # Roadmap - fetch file from google drive
+        oaFileDirPath = utilsPathFileName('oaList')
+        fileName = getListOfFileNames(oaFileDirPath)
+        if fileName == 'NoFile':
+            return None
+
+        
         fileNameCSV = f'{fileName}.csv'
-        # df_asin = pd.read_csv(utilsPathFileName(fileName))
-        df_asin = pd.read_excel(utilsPathFileName(fileName))
+        df_asin = pd.read_excel(utilsPathFileName(f'oaList\{fileName}'))
         print(df_asin)
         
         myFullASINList = df_asin['ASIN'].drop_duplicates().values.tolist()
@@ -96,16 +111,18 @@ def runSuperCode(fileNameSelected):
         HEADERS =  ['ASIN', 'Seller_canada','priceTotal_canada', 'Condition_canada','Seller_usa', 'priceTotal_usa', 'Condition_usa',
             'is_FBA_usa','lowestPriceFloorusa','US_ConvertedPriceTo_CAD','ProfitFactor','PF_10pctBelow','PF_15pctBelow']
 
-        combineCsvToOneFile(allCsvFiles, HEADERS, utilsPathTempFileName(fileNameCSV))
+        combineCsvToOneFile(allCsvFiles, HEADERS, utilsPathFileName(f'results\{fileNameCSV}'))
 
 
-        with open(utilsPathTempFileName(fileNameCSV), 'r', encoding="utf-8") as f:
+        with open(utilsPathFileName(f'results\{fileNameCSV}'), 'r', encoding="utf-8") as f:
             reader = csv.reader(f)
             your_list = list(reader)
 
         # ***********************   combine all csv files  **********************************
         
-        yes_or_no_input = 'y'
+        runCleanupOf_oaList_Folder() # cleanup filder so it can read from clean folder
+
+        yes_or_no_input = 'n'
         sendEmail(yes_or_no_input, fileNameCSV, "warrenv@gmail.com" )
 
         return your_list
@@ -119,8 +136,8 @@ timeStart = datetime.now()
 # ***************************
 # yes_or_no_input = input("do you want to send email? y or n ??: ") 
 # yes_or_no_input = 'y'
-fileName = '2019 11 27 SEARCH 1-4 V4 PART 1.xlsx'
-runSuperCode(fileName)  
+# fileName = '2019 11 27 SEARCH 1-4 V4 PART 1.xlsx'
+runSuperCode()  
 # ***************************
 
 timeEnd = datetime.now()

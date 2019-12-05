@@ -4,31 +4,20 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 import os
 
+from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName, deleteAllFilesInFolder, createTempFile, getListOfFileNames
 
-# BASE_oaAPP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# BASE_oaAPP_Utilities_DIR  = os.path.join(BASE_oaAPP_DIR, 'cadus_utilities')
-
-# def utilsPathFileName(fileName):
-#     return os.path.join(BASE_oaAPP_Utilities_DIR, fileName)
+# tempDirectory = utilsPathTempFileName('')
 
 
-# options = webdriver.ChromeOptions()
-# chrome_path = utilsPathFileName('chromedriver.exe')
-# browser = webdriver.Chrome(chrome_path, options=options)
+# print(utilsPathFileName('oaList'))
 
-# browser.get('https://www.google.com?q=python#q=python')
-# first_result = ui.WebDriverWait(browser, 15).until(lambda browser: browser.find_element_by_class_name('rc'))
-# first_link = first_result.find_element_by_tag_name('a')
+# def runCleanupOf_oaList_Folder():
+#     dirPath = utilsPathFileName('oaList')
+#     deleteAllFilesInFolder(dirPath)
 
-# main_window = browser.current_window_handle
-# first_link.send_keys(Keys.CONTROL + Keys.RETURN)
 
-# browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.TAB)
-# browser.switch_to_window(main_window)
 
-# sleep(90)
-
-# browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 'w')
-# browser.switch_to_window(main_window)
-
+oaFileDirPath = utilsPathFileName('oaList')
+fileName = getListOfFileNames(oaFileDirPath)
+print(fileName)
 

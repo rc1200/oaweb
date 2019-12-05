@@ -1,8 +1,12 @@
 import pandas as pd
 import random
+import os, shutil
+
 from oaSscrape import AMZSoupObject, AllOffersObject
+from os import listdir
+from os.path import isfile, join
 from time import sleep
-import os
+
 
 
 BASE_oaAPP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -153,3 +157,37 @@ def combineCsvToOneFile (allCsvFiles, headers, NewFileName):
     print('combinging csv and writing to new file')
     print(combined_csv_to_Pandas.head())
     combined_csv_to_Pandas.to_csv( NewFileName, index=False, encoding='utf-8-sig')
+
+
+def deleteAllFilesInFolder(filePath):
+    print (f'deleting all files/folders in {filePath}')
+    folder = filePath
+
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+
+def createTempFile(filePath, fileName):
+    print (f'creating file {fileName} in {filePath}')
+
+    with open(os.path.join(filePath, fileName), "w") as f:   # Opens file and casts as f 
+        f.write("Hello World form " + f.name)      
+
+
+def getListOfFileNames(dirPath):
+    onlyfiles = [f for f in listdir(dirPath) if isfile(join(dirPath, f))]
+    print(f'list of files are : {onlyfiles}')
+
+    if len(onlyfiles) > 0:
+        return onlyfiles[0]
+    else:
+        return 'NoFile'
+    # get the one with latest date???
+    # no file logic

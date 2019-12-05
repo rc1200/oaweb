@@ -18,8 +18,6 @@ def utilsPathFileName(fileName):
 
 # ********************************************
 
-df_asin = pd.read_csv(utilsPathFileName('asin2.csv'))
-
 
 class AMZSoupObject(object):
 
