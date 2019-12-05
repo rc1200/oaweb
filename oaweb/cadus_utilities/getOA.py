@@ -24,7 +24,7 @@ def sendEmail(y_or_n, filenameCSV,sendToEmailAddress):
         # toaddr = "ron.calibuso@gmail.com"
         toaddr = sendToEmailAddress              
         filename = filenameCSV
-        filePath = utilsPathTempFileName('')
+        filePath = utilsPathFileName('')
 
         sendViaGmail(fromaddr, eml_pswrd, toaddr, filename, filePath)
 
@@ -42,14 +42,14 @@ def runCleanupOf_oaList_Folder():
 def runSuperCode():
 
     if __name__ == "__main__":  # confirms that the code is under main function
-
-        runCleanupOfTempFolder()
+        
         logging.basicConfig(filemode= utilsPathTempFileName('myLog.log'))
         logger = logging.getLogger()
 
         # ********************************************
 
         # Roadmap - fetch file from google drive
+        runCleanupOfTempFolder()
         oaFileDirPath = utilsPathFileName('oaList')
         fileName = getListOfFileNames(oaFileDirPath)
         if fileName == 'NoFile':
@@ -86,7 +86,6 @@ def runSuperCode():
         # Create new procs and append to list
         procs = []
         for i in range(numOfLists):
-            # saveToFile(asinSubList[i], i, today, f'_Result{i}.csv', False)
 
             proc = Process(target=saveToFile, args=(asinSubList[i], i, today, f'_Result{i}.csv', False))
                 # def saveToFile(myASINList, threadNum, todaysDate, fileNameExtensionName='_Result.csv', isTest):
@@ -121,9 +120,11 @@ def runSuperCode():
         # ***********************   combine all csv files  **********************************
         
         runCleanupOf_oaList_Folder() # cleanup filder so it can read from clean folder
+        runCleanupOfTempFolder()
 
-        yes_or_no_input = 'n'
-        sendEmail(yes_or_no_input, fileNameCSV, "warrenv@gmail.com" )
+        yes_or_no_input = 'ny'
+        sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "warrenv@gmail.com" )
+        # sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "ron.calibuso@gmail.com" )
 
         return your_list
 

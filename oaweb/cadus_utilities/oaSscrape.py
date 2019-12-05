@@ -76,7 +76,7 @@ class AMZSoupObject(object):
 
 
         goToWebPage(785, 49, url)
-        path = "C:\\github\\oa2\\mysite\\oaweb\\cadus_utilities\\temp"
+        # path = "C:\\github\\oa2\\mysite\\oaweb\\cadus_utilities\\temp"
         # saveWebPageToFile(871 , 437,path, FileName)
         saveWebPageToFile(871 , 437,'', FileName)
 
