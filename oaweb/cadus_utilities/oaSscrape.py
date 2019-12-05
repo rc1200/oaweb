@@ -7,8 +7,7 @@ import os
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-
+from KeyMouseCtrl import goToWebPage, saveWebPageToFile
 
 BASE_oaAPP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_oaAPP_Utilities_DIR  = os.path.join(BASE_oaAPP_DIR, 'cadus_utilities')
@@ -78,16 +77,21 @@ class AMZSoupObject(object):
     def saveToFile(self, FileName, url):
 
 
+        goToWebPage(785, 49, url)
+        path = "C:\\github\\oa2\\mysite\\oaweb\\cadus_utilities\\temp"
+        # saveWebPageToFile(871 , 437,path, FileName)
+        saveWebPageToFile(871 , 437,'', FileName)
+
 # run locally
         # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
         # self.options.add_argument('--ignore-certificate-errors')
         # self.options.add_argument('--incognito')
 
-        self.options = webdriver.ChromeOptions()
-        # self.options.add_argument("--headless")
-        # self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
-        chrome_path = utilsPathFileName('chromedriver.exe')
-        self.driver = webdriver.Chrome(chrome_path, options=self.options)
+        # self.options = webdriver.ChromeOptions()
+        # # self.options.add_argument("--headless")
+        # # self.options.add_argument(f'user-agent={self.CHROME_HEADER}')
+        # chrome_path = utilsPathFileName('chromedriver.exe')
+        # self.driver = webdriver.Chrome(chrome_path, options=self.options)
 # run locally
 
 # *************************************************************
@@ -108,13 +112,14 @@ class AMZSoupObject(object):
         print(f'\n{url}   urLLLLLLLLLL  for item: {self.itemNumber} \n')
         # print(f'number of total Objects created is : {AMZSoupObject.num_of_AMZ_objects}')
         
-        self.driver.get(url)
-        time.sleep(5)
+        # self.driver.get(url)
+        # time.sleep(5)
 
-        with open(FileName, 'w', encoding="utf-8") as f:
-            f.write(self.driver.page_source)
+        # with open(FileName, 'w', encoding="utf-8") as f:
+        #     f.write(self.driver.page_source)
 
-        self.driver.close()
+        # self.driver.close()
+# *************************************************************
         
 
     def soupObj(self):

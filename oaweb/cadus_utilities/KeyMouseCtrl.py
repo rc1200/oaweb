@@ -4,7 +4,7 @@ import time
 
 mouse = mController()                                                
 keyboard = kController()
-LOAD_PAGE_SLEEP_TIME = 3
+LOAD_PAGE_SLEEP_TIME = 5
 
 
 def getPos():
@@ -33,7 +33,7 @@ def goToWebPage(mX, mY, newURL):
     # allow some time for page to load
     time.sleep(LOAD_PAGE_SLEEP_TIME)
 
-def saveFile(mX, mY, filePath, fileName):
+def saveWebPageToFile(mX, mY, filePath, fileName):
 
     with keyboard.pressed(Key.ctrl):
         keyboard.press('s')
@@ -46,9 +46,10 @@ def saveFile(mX, mY, filePath, fileName):
     keyboard.type(f'{filePath}\{fileName}')
     keyboard.press(Key.enter)
     keyboard.press('y')
+    time.sleep(LOAD_PAGE_SLEEP_TIME)
 
 
 # getPos()
-goToWebPage(785, 49, 'https://www.rexegg.com/regex-quickstart.html')
-path = "C:\\github\\oa2\\mysite\\oaweb\\cadus_utilities\\temp"
-saveFile(871 , 437,path, 'blah.html')
+# goToWebPage(785, 49, 'https://www.rexegg.com/regex-quickstart.html')
+# path = "C:\\github\\oa2\\mysite\\oaweb\\cadus_utilities\\temp"
+# saveWebPageToFile(871 , 437,path, 'blah.html')

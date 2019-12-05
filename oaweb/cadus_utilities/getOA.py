@@ -14,7 +14,7 @@ import os
 from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName
 
 
-def sendEmail(y_or_n, filenameCSV):
+def sendEmail(y_or_n, filenameCSV,sendToEmailAddress):
     '''
         >>> y or Y,... will send email
         else no email sent
@@ -23,7 +23,7 @@ def sendEmail(y_or_n, filenameCSV):
         fromaddr = "bootstrapu@gmail.com"
         eml_pswrd = os.environ.get('BOOTSTRAP_PASSWORD', 'Not Set')
         # toaddr = "ron.calibuso@gmail.com"
-        toaddr = "warrenv@gmail.com"        
+        toaddr = sendToEmailAddress              
         filename = filenameCSV
         filePath = utilsPathTempFileName('')
 
@@ -50,7 +50,7 @@ def runSuperCode(fileNameSelected):
 
         numOfLists = 1
         STARTNUM = 0  #  must be 0 to get first value
-        recordsPerList = 250
+        recordsPerList = 2000
 
         # initalize empty lists
     # asinSubList = [[] for _ in range(numOfLists)]  -- dont need, moved to function and return that list
@@ -105,8 +105,8 @@ def runSuperCode(fileNameSelected):
 
         # ***********************   combine all csv files  **********************************
         
-        yes_or_no_input = 'n'
-        sendEmail(yes_or_no_input, fileNameCSV)
+        yes_or_no_input = 'y'
+        sendEmail(yes_or_no_input, fileNameCSV, "warrenv@gmail.com" )
 
         return your_list
 
@@ -118,8 +118,8 @@ timeStart = datetime.now()
 
 # ***************************
 # yes_or_no_input = input("do you want to send email? y or n ??: ") 
-yes_or_no_input = 'y'
-fileName = '2019 11 19 400K USED AND NEW SET 3.xlsx'
+# yes_or_no_input = 'y'
+fileName = '2019 11 27 SEARCH 1-4 V4 PART 1.xlsx'
 runSuperCode(fileName)  
 # ***************************
 
