@@ -148,6 +148,3 @@ print('End Time:  {}'.format(timeEnd))
 print('Total Time:  {}'.format(totalMin))
 
 
-
-
-# asd
