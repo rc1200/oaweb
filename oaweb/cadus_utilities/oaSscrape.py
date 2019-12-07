@@ -75,10 +75,15 @@ class AMZSoupObject(object):
     def saveToFile(self, FileName, url):
 
 
+        # Local Machine i7
         goToWebPage(785, 49, url)
-        # path = "C:\\github\\oa2\\mysite\\oaweb\\cadus_utilities\\temp"
-        # saveWebPageToFile(871 , 437,path, FileName)
         saveWebPageToFile(871 , 437,'', FileName)
+        # Local Machine i7
+
+        # remote Server #
+        # goToWebPage(423, 56, url)
+        # saveWebPageToFile(319, 434,'', FileName)
+        # remote Server #
 
 # run locally
         # self.options.add_argument('--disable-gpu')  # Last I checked this was necessary for Windows.
