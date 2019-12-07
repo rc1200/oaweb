@@ -16,8 +16,4 @@ from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF
 #     deleteAllFilesInFolder(dirPath)
 
 
-
-oaFileDirPath = utilsPathFileName('oaList')
-fileName = getListOfFileNames(oaFileDirPath)
-print(fileName)
-
+print(os.path.join('', 'cadus_utilities'))

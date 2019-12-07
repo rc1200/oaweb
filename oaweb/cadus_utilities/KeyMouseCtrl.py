@@ -1,6 +1,7 @@
 from pynput.mouse import Button, Controller as mController
 from pynput.keyboard import Key, Controller as kController
 import time
+import os
 
 mouse = mController()                                                
 keyboard = kController()
@@ -43,9 +44,12 @@ def saveWebPageToFile(mX, mY, filePath, fileName):
     singleLeftClick(mX, mY)
 
     selectAll()
-    keyboard.type(f'{filePath}\{fileName}')
+    keyboard.type(os.path.join(filePath, fileName))
+    time.sleep(1)
     keyboard.press(Key.enter)
+    time.sleep(0.5)
     keyboard.press('y')
+    time.sleep(0.5)
     time.sleep(LOAD_PAGE_SLEEP_TIME)
 
 
