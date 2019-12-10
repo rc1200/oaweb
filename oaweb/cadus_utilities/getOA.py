@@ -122,9 +122,9 @@ def runSuperCode():
         runCleanupOf_oaList_Folder() # cleanup filder so it can read from clean folder
         runCleanupOfTempFolder()
 
-        yes_or_no_input = 'n'
-        # sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "warrenv@gmail.com" )
-        # sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "ron.calibuso@gmail.com" )
+        yes_or_no_input = 'y'
+        sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "warrenv@gmail.com" )
+        sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "ron.calibuso@gmail.com" )
 
         return your_list
 
