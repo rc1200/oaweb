@@ -53,6 +53,22 @@ def saveWebPageToFile(mX, mY, filePath, fileName):
     time.sleep(LOAD_PAGE_SLEEP_TIME)
 
 
+
+def moveMouseWake(mXstart, mYstart, mXend, mYend):
+        mouse.position = (mXstart, mYstart)
+        for i in range(mXend):
+                time.sleep(0.1)
+                print(i)
+                mouse.move(i, 0)
+    
+        for i in range(mYend):
+                time.sleep(0.1)
+                print(i)
+                mouse.move(0, i)
+   
+
+
+
 # getPos()
 # goToWebPage(785, 49, 'https://www.rexegg.com/regex-quickstart.html')
 # path = "C:\\github\\oa2\\mysite\\oaweb\\cadus_utilities\\temp"

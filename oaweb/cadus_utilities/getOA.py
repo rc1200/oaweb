@@ -12,6 +12,7 @@ import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), "cadus_utilities"))
 
 from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName, deleteAllFilesInFolder, createTempFile, getListOfFileNames
+from KeyMouseCtrl import moveMouseWake
 
 def sendEmail(y_or_n, filenameCSV,sendToEmailAddress):
     '''
@@ -54,10 +55,9 @@ def runSuperCode():
         fileName = getListOfFileNames(oaFileDirPath)
         if fileName == 'NoFile':
             return None
-
         
         fileNameCSV = f'{fileName}.csv'
-        df_asin = pd.read_excel(utilsPathFileName(f'oaList\{fileName}'))
+        df_asin = pd.read_excel(utilsPathFileName(f'oaList\{fileName}'), converters={'ASIN': lambda x: str(x)})
         print(df_asin)
         
         myFullASINList = df_asin['ASIN'].drop_duplicates().values.tolist()
@@ -123,7 +123,7 @@ def runSuperCode():
         runCleanupOfTempFolder()
 
         yes_or_no_input = 'y'
-        sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "warrenv@gmail.com" )
+        # sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "warrenv@gmail.com" )
         sendEmail(yes_or_no_input, f'results\{fileNameCSV}', "ron.calibuso@gmail.com" )
 
         return your_list
@@ -138,6 +138,7 @@ timeStart = datetime.now()
 # yes_or_no_input = input("do you want to send email? y or n ??: ") 
 # yes_or_no_input = 'y'
 # fileName = '2019 11 27 SEARCH 1-4 V4 PART 1.xlsx'
+moveMouseWake(0,0,30,30)
 runSuperCode()  
 # ***************************
 
