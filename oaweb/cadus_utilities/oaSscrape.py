@@ -81,8 +81,8 @@ class AMZSoupObject(object):
         # Local Machine i7
 
         # remote Server #
-        # goToWebPage(423, 56, url)
-        # saveWebPageToFile(319, 434,'', FileName)
+        # goToWebPage(308, 61, url)
+        # saveWebPageToFile(553, 259,'', FileName)
         # remote Server #
 
 # run locally
