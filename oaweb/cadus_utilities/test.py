@@ -5,7 +5,7 @@ from time import sleep
 import os
 import sys
 
-from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName, deleteAllFilesInFolder, createTempFile, getListOfFileNames
+from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName, deleteAllFilesInFolder, createTempFile, getListOfFileNames, setFocusWindowsApplication
 
 # tempDirectory = utilsPathTempFileName('')
 
@@ -18,4 +18,15 @@ from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF
 
 
 # print(os.path.join('', 'cadus_utilities'))
-print(sys.executable)
+# from pywinauto.application import Application
+
+# app = Application().start(cmd_line=u'"C:\\WINDOWS\\system32\\notepad.exe" ')
+# notepad = app.Notepad
+# notepad.wait('ready')
+# notepad.setFocus()
+
+# app.Kill_()
+
+
+
+setFocusWindowsApplication('\w','Chrome_WidgetWin_1')

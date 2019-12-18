@@ -11,7 +11,7 @@ from sendGmail import sendViaGmail
 import os
 # sys.path.append(os.path.join(os.path.dirname(__file__), "cadus_utilities"))
 
-from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName, deleteAllFilesInFolder, createTempFile, getListOfFileNames
+from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF, saveToFile, combineCsvToOneFile, utilsPathFileName, utilsPathTempFileName, deleteAllFilesInFolder, createTempFile, getListOfFileNames, setFocusWindowsApplication
 from KeyMouseCtrl import moveMouseWake
 
 def sendEmail(y_or_n, filenameCSV,sendToEmailAddress):
@@ -22,7 +22,6 @@ def sendEmail(y_or_n, filenameCSV,sendToEmailAddress):
     if y_or_n.upper() == 'Y':
         fromaddr = "bootstrapu@gmail.com"
         eml_pswrd = os.environ.get('BOOTSTRAP_PASSWORD', 'Not Set')
-        # toaddr = "ron.calibuso@gmail.com"
         toaddr = sendToEmailAddress              
         filename = filenameCSV
         filePath = utilsPathFileName('')
@@ -80,6 +79,9 @@ def runSuperCode():
         # Need to change numOfLists if the is less items
         numOfLists = len(asinSubList)
 
+
+        # *******************  set focus to browser for automation  *****************
+        setFocusWindowsApplication('\w','Chrome_WidgetWin_1')
 
 
         # *******************  Multi Process  *****************

@@ -1,6 +1,7 @@
 import pandas as pd
 import random
 import os, shutil
+import pywinauto
 
 from oaSscrape import AMZSoupObject, AllOffersObject
 from os import listdir
@@ -191,3 +192,22 @@ def getListOfFileNames(dirPath):
         return 'NoFile'
     # get the one with latest date???
     # no file logic
+
+
+def setFocusWindowsApplication(titleName, ClassName):
+
+    # SWAPY will record the title and class of the window you want activated
+    app = pywinauto.application.Application()
+    # SWAPY_List = [u'Notepad', u'*Untitled - Notepad', u'*Untitled - NotepadNotepad']
+    # c, t = SWAPY_List[0], SWAPY_List[1]
+    # print(f'class is {c}')
+    # print(f'title is {t}')
+    # using best match
+        # print(pywinauto.findwindows.find_windows(best_match=titleName, class_name=ClassName)) 
+    # using reg expression    
+        # print(pywinauto.findwindows.find_windows(title_re=u'\w', class_name=u'Chrome_WidgetWin_1'))
+
+    handle_List =pywinauto.findwindows.find_windows(title_re=titleName, class_name=ClassName)
+    handle = handle_List[-1]
+    window = app.connect(handle=handle).window(handle=handle)
+    window.set_focus()
