@@ -196,6 +196,16 @@ def getListOfFileNames(dirPath):
 
 def setFocusWindowsApplication(titleName, ClassName):
 
+    '''
+    Function to set focus on a windows application
+    sample:     setFocusWindowsApplication('\w','Chrome_WidgetWin_1')
+        in this case we are using a regex expresstion to exxentially get anything with '\w'
+        Chrome_WidgetWin_1 is the Class name
+
+        NOTE: you can get the class name using an app called swapy https://github.com/pywinauto/SWAPY
+        where you can spy on programs, even get the Handle ID instead if you choose
+    '''
+
     # SWAPY will record the title and class of the window you want activated
     app = pywinauto.application.Application()
     # SWAPY_List = [u'Notepad', u'*Untitled - Notepad', u'*Untitled - NotepadNotepad']

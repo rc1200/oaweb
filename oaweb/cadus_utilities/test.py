@@ -29,4 +29,10 @@ from oaUtilities import randomSleep, splitIntoListArray, getBothCAN_US, dictToDF
 
 
 
-setFocusWindowsApplication('\w','Chrome_WidgetWin_1')
+# setFocusWindowsApplication('\w','Chrome_WidgetWin_1')
+
+# Local
+xy_coordinates = {'webUrl_XY' : [785, 49], 'save_file_XY' : [871, 437]}
+# Server
+xy_coordinates = {'webUrl_XY' : [(785, 49], 'save_file_XY' : [871 , 437]}
+

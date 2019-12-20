@@ -72,12 +72,19 @@ class AMZSoupObject(object):
             return 'https://www.amazon.com/gp/offer-listing/{}/ref=olp_f_primeEligible?f_primeEligible=true'.format(self.itemNumber)
             # return 'https://www.amazon.com/gp/offer-listing/{}'.format(self.itemNumber)
 
-    def saveToFile(self, FileName, url):
+    def saveToFile(self, FileName, url) :
 
+        # Local
+        xy_coordinates = {'webUrl_XY' : [785, 49], 'save_file_XY' : [871, 437]}
+        # Server
+        # xy_coordinates = {'webUrl_XY' : [(785, 49], 'save_file_XY' : [871 , 437]}
+
+        goToWebPage(xy_coordinates['webUrl_XY'][0], xy_coordinates['webUrl_XY'][1], url)
+        saveWebPageToFile(xy_coordinates['save_file_XY'][0] , xy_coordinates['save_file_XY'][1],'', FileName)
 
         # Local Machine i7
-        goToWebPage(785, 49, url)
-        saveWebPageToFile(871 , 437,'', FileName)
+        # goToWebPage(785, 49, url)
+        # saveWebPageToFile(871 , 437,'', FileName)
         # Local Machine i7
 
         # remote Server #
